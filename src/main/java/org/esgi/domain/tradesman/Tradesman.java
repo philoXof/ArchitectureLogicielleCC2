@@ -1,23 +1,26 @@
 package org.esgi.domain.tradesman;
 
 import org.esgi.domain.address.Address;
+import org.esgi.domain.creditcard.CreditCard;
+import org.esgi.domain.creditcard.CreditCardBuilder;
 
 public class Tradesman {
     private final TradesmanId tradesmanId;
     private String firstName;
     private String lastName;
     private Address address;
+    private CreditCard creditCard;
 
-    public Tradesman(TradesmanId tradesmanId, String firstName, String lastName, Address address) {
+    public Tradesman(TradesmanId tradesmanId, String firstName, String lastName, Address address, CreditCard creditCard) {
         this.tradesmanId = tradesmanId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
-
+        this.creditCard = creditCard;
     }
 
-    public static Tradesman of(TradesmanId tradesmanId, String firstName, String lastName, Address address){
-        return new Tradesman(tradesmanId, firstName, lastName, address);
+    public static Tradesman of(TradesmanId tradesmanId, String firstName, String lastName, Address address, CreditCard creditCard){
+        return new Tradesman(tradesmanId, firstName, lastName, address, creditCard);
     }
 
     @Override

@@ -36,7 +36,6 @@ public class DefaultAddress implements Address{
 
     @Override
     public Address changeAddress(Address address) {
-
         return address;
     }
 
