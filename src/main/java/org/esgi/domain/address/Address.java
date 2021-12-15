@@ -8,4 +8,6 @@ public interface Address {
     String city();
 
     String country();
+
+    Address changeAddress(Address address);
 }

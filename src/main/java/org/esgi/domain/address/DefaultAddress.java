@@ -35,11 +35,17 @@ public class DefaultAddress implements Address{
     }
 
     @Override
+    public Address changeAddress(Address address) {
+
+        return address;
+    }
+
+    @Override
     public String toString(){
         return "Address:{ " +
-                "number: " + this.number + ", " +
-                "line: " + this.line + ", " +
-                "city: " + this.city + ", " +
-                "country: " + this.country + " }";
+                "Number: " + this.number + ", " +
+                "Line: " + this.line + ", " +
+                "City: " + this.city + ", " +
+                "Country: " + this.country + " }";
     }
 }

@@ -1,17 +1,23 @@
 package org.esgi;
 
-import org.esgi.application.UserService;
+import org.esgi.application.TradesmanService;
 import org.esgi.domain.address.Address;
 import org.esgi.domain.address.AddressBuilder;
-import org.esgi.domain.user.User;
-import org.esgi.domain.user.UserId;
-import org.esgi.domain.user.UserRepository;
-import org.esgi.infrastructure.InMemoryUserRepository;
+import org.esgi.domain.tradesman.Tradesman;
+import org.esgi.domain.tradesman.TradesmanId;
+import org.esgi.domain.tradesman.TradesmanRepository;
+import org.esgi.infrastructure.InMemoryTradesmanRepository;
+
+import java.util.List;
 
 public class Main
 {
     public static void main( String[] args )
     {
+        final TradesmanRepository tradesmanRepository = new InMemoryTradesmanRepository();
+        final TradesmanService tradesmanService = new TradesmanService(tradesmanRepository);
+        final TradesmanId tradesmanId1 = tradesmanRepository.nextIdentity();
+        final TradesmanId tradesmanId2 = tradesmanRepository.nextIdentity();
 
         final AddressBuilder addressBuilder =
                 AddressBuilder.create().withCountry("FRANCE");
@@ -27,20 +33,35 @@ public class Main
                 .withNumber("42")
                 .build();
 
-        UserRepository userRepository = new InMemoryUserRepository();
-        UserService userService = new UserService(userRepository);
+        addTradesman(tradesmanService, tradesmanId1, address1);
+        printTradesman(tradesmanRepository, tradesmanId1);
 
+        addTradesman(tradesmanService, tradesmanId2, address2);
+        printTradesman(tradesmanRepository, tradesmanId2);
 
-        final UserId userId1 = userRepository.nextIdentity();
-        final UserId userId2 = userRepository.nextIdentity();
-        addUser(userService, userId1, address1);
-        addUser(userService, userId2, address2);
+        changeAddress(tradesmanService, tradesmanId1, address2);
+        changeAddress(tradesmanService, tradesmanId2, address1);
+
+        printTradesmen(tradesmanService);
     }
 
-    private static void addUser(UserService userService, UserId userId, Address address){
-        User user = User.of(userId,"JD","COUCOU",address);
-        userService.create(user);
-        System.out.println(user);
+    private static void addTradesman(TradesmanService tradesmanService, TradesmanId tradesmanId, Address address){
+        Tradesman tradesman = Tradesman.of(tradesmanId,"JD","COUCOU",address);
+        tradesmanService.create(tradesman);
+    }
+
+    private static void changeAddress(TradesmanService tradesmanService, TradesmanId id, Address address){
+        tradesmanService.changeAddress(id, address);
+    }
+
+    private static void printTradesmen(TradesmanService tradesmanService){
+        System.out.println("User List :");
+        final List<Tradesman> tradesmen = tradesmanService.all();
+        tradesmen.forEach(System.out::println);
+    }
+
+    private static void printTradesman(TradesmanRepository tradesmanRepository, TradesmanId id){
+        System.out.println(tradesmanRepository.findById(id));
     }
 
 }
