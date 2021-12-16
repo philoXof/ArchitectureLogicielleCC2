@@ -1,6 +1,8 @@
 package org.esgi.application;
 
+import org.esgi.domain.Password;
 import org.esgi.domain.address.Address;
+import org.esgi.domain.creditcard.CreditCard;
 import org.esgi.domain.tradesman.Tradesman;
 import org.esgi.domain.tradesman.TradesmanId;
 import org.esgi.domain.tradesman.TradesmanRepository;
@@ -23,18 +25,25 @@ public class TradesmanService {
 
     public void create(Tradesman tradesman) {
         this.tradesmanRepository.add(tradesman);
-        this.eventBus.publish(new CreateTradesmanEvent(
-                tradesman.getTradesmanId(),
-                tradesman.getFirstName(),
-                tradesman.getFirstName(),
-                tradesman.getAddress()
-                ));
+        this.eventBus.publish(new CreateTradesmanEvent(tradesman));
     }
 
     public void changeAddress(TradesmanId id, Address address){
-        var user = this.tradesmanRepository.findById(id);
-        user.setAddress(address);
-        this.tradesmanRepository.save(user);
+        var tradesman = this.tradesmanRepository.findById(id);
+        tradesman.setAddress(address);
+        this.tradesmanRepository.save(tradesman);
+    }
+
+    public void changeCreditCard(TradesmanId id, CreditCard creditCard){
+        var tradesman = this.tradesmanRepository.findById(id);
+        tradesman.setCreditCard(creditCard);
+        this.tradesmanRepository.save(tradesman);
+    }
+
+    public void changePassword(TradesmanId id, Password password){
+        var tradesman = this.tradesmanRepository.findById(id);
+        tradesman.setPassword(password);
+        this.tradesmanRepository.save(tradesman);
     }
 
     public List<Tradesman> all(){

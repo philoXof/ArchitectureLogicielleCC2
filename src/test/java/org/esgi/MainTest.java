@@ -2,7 +2,9 @@ package org.esgi;
 
 import static org.junit.Assert.assertTrue;
 
+import org.esgi.application.CreateTradesmanEvent;
 import org.esgi.application.TradesmanService;
+import org.esgi.domain.Password;
 import org.esgi.domain.address.Address;
 import org.esgi.domain.address.AddressBuilder;
 import org.esgi.domain.creditcard.CreditCard;
@@ -26,17 +28,25 @@ import java.util.List;
 public class MainTest
 {
     public static void main( String[] args ) throws ParseException {
+
         final TradesmanRepository tradesmanRepository = new InMemoryTradesmanRepository();
+
+        /*
+          event initialisation
+         */
         EventBus<ApplicationEvent> eventBus = new SimpleEventBus<>();
-        /*eventBus.register(PlayerMoved.class, List.of(
-                new PlayerMovedListener1(),
-                new PlayerMovedListener2()));*/
+        eventBus.register(CreateTradesmanEvent.class, List.of(new CreateTradesmanEventListener()));
         final TradesmanService tradesmanService = new TradesmanService(tradesmanRepository, eventBus);
 
-
+        /*
+         * user id creation
+         */
         final TradesmanId tradesmanId1 = tradesmanRepository.nextIdentity();
         final TradesmanId tradesmanId2 = tradesmanRepository.nextIdentity();
 
+        /*
+         * build Address
+         */
         final AddressBuilder addressBuilder =
                 AddressBuilder.create().withCountry("FRANCE");
         Address address1 = addressBuilder
@@ -50,33 +60,63 @@ public class MainTest
                 .withLine("AVENUE DU PAPE")
                 .withNumber("42")
                 .build();
+        Address address3 = addressBuilder
+                .withCity("MARSEILLE")
+                .withLine("ROUTE DES VINS")
+                .withNumber("42")
+                .build();
+
+        /*
+         * build Creditcard
+         */
         final CreditCardBuilder creditCardBuilder =
                 CreditCardBuilder.create();
         CreditCard creditCard1 = creditCardBuilder
                 .withCreditCardOwner("JEHANNO LUCAS")
-                .withExpirationDate(stringToDate("09/23"))
+                .withExpirationDate(stringToDate("05/23"))
                 .withCryptogram("1746 2957 3257 2196")
                 .withCardNumber("632")
                 .build();
         CreditCard creditCard2 = creditCardBuilder
                 .withCreditCardOwner("DUPONT MICHELLE")
-                .withExpirationDate(stringToDate("09/23"))
+                .withExpirationDate(stringToDate("12/22"))
                 .withCryptogram("183")
                 .withCardNumber("12731 6250 9175 1736")
                 .build();
+        CreditCard creditCard3 = creditCardBuilder
+                .withCreditCardOwner("DANIEL JACQUELINE")
+                .withExpirationDate(stringToDate("05/24"))
+                .withCryptogram("352")
+                .withCardNumber("2421 3245 1353 6353")
+                .build();
 
-        addTradesman(tradesmanService, tradesmanId1, address1, creditCard1);
+        /*
+         * add tradesmen
+         */
+        addTradesman(tradesmanService, tradesmanId1, address1, creditCard1, new Password("Coucou1$"));
         printTradesman(tradesmanRepository, tradesmanId1);
 
-        addTradesman(tradesmanService, tradesmanId2, address2, creditCard2);
+        addTradesman(tradesmanService, tradesmanId2, address2, creditCard2, new Password("Azerty12*%"));
         printTradesman(tradesmanRepository, tradesmanId2);
 
-        changeAddress(tradesmanService, tradesmanId1, address2);
-        changeAddress(tradesmanService, tradesmanId2, address1);
+        /*
+         * change address tradesmen
+         */
+        changeAddress(tradesmanService, tradesmanId2, address3);
 
+        /*
+         * change creditCard
+         */
+        changeCreditCard(tradesmanService, tradesmanId1, creditCard3);
         printTradesmen(tradesmanService);
     }
 
+    /**
+     *
+     * @param date Date Format credit Card
+     * @return Date complete to allow comparison between 2 Date
+     * @throws ParseException exception
+     */
     private static Date stringToDate(String date) throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/yy");
         return simpleDateFormat.parse(date);
@@ -87,13 +127,17 @@ public class MainTest
         return simpleDateFormat.format(date);
     }
 
-    private static void addTradesman(TradesmanService tradesmanService, TradesmanId tradesmanId, Address address, CreditCard creditCard){
-        Tradesman tradesman = Tradesman.of(tradesmanId,"JD","COUCOU",address, creditCard);
+    private static void addTradesman(TradesmanService tradesmanService, TradesmanId tradesmanId, Address address, CreditCard creditCard, Password password){
+        Tradesman tradesman = Tradesman.of(tradesmanId,"JD","COUCOU",address, creditCard, password);
         tradesmanService.create(tradesman);
     }
 
     private static void changeAddress(TradesmanService tradesmanService, TradesmanId id, Address address){
         tradesmanService.changeAddress(id, address);
+    }
+
+    private static void changeCreditCard(TradesmanService tradesmanService, TradesmanId tradesmanId, CreditCard creditCard){
+        tradesmanService.changeCreditCard(tradesmanId,creditCard);
     }
 
     private static void printTradesmen(TradesmanService tradesmanService){
