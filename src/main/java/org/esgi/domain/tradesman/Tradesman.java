@@ -3,18 +3,21 @@ package org.esgi.domain.tradesman;
 import org.esgi.domain.Password;
 import org.esgi.domain.address.Address;
 import org.esgi.domain.creditcard.CreditCard;
-import org.esgi.domain.creditcard.CreditCardBuilder;
 
 public class Tradesman {
-    private final TradesmanId tradesmanId;
+    private final TradesmanId id;
     private String firstName;
     private String lastName;
     private Password password;
     private Address address;
     private CreditCard creditCard;
+    //private String skills;
+    //zone géographique
+    // taux journalier
+    // certificat d'aptitude
 
-    public Tradesman(TradesmanId tradesmanId, String firstName, String lastName, Password password, Address address, CreditCard creditCard) {
-        this.tradesmanId = tradesmanId;
+    public Tradesman(TradesmanId id, String firstName, String lastName, Password password, Address address, CreditCard creditCard) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
@@ -29,7 +32,7 @@ public class Tradesman {
     @Override
     public String toString(){
         return "Tradesman:{ " +
-                "TradesmanId: " + this.tradesmanId + ", " +
+                "Id: " + this.id + ", " +
                 "FirstName: " + this.firstName + ", " +
                 "LastName: " + this.lastName + ", " +
                 this.address.toString() + ", " +
@@ -37,8 +40,8 @@ public class Tradesman {
                 this.creditCard.toString() + " }";
     }
 
-    public TradesmanId getTradesmanId() {
-        return this.tradesmanId;
+    public TradesmanId getId() {
+        return this.id;
     }
 
     public Password getPassword() {

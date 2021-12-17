@@ -3,6 +3,7 @@ package org.esgi;
 import static org.junit.Assert.assertTrue;
 
 import org.esgi.application.CreateTradesmanEvent;
+import org.esgi.application.TradesmanAddCreditCard;
 import org.esgi.application.TradesmanService;
 import org.esgi.domain.Password;
 import org.esgi.domain.address.Address;
@@ -36,6 +37,7 @@ public class MainTest
          */
         EventBus<ApplicationEvent> eventBus = new SimpleEventBus<>();
         eventBus.register(CreateTradesmanEvent.class, List.of(new CreateTradesmanEventListener()));
+        eventBus.register(TradesmanAddCreditCard.class,List.of(new TradesmanAddCreditCardListener()));
         final TradesmanService tradesmanService = new TradesmanService(tradesmanRepository, eventBus);
 
         /*
@@ -67,7 +69,7 @@ public class MainTest
                 .build();
 
         /*
-         * build Creditcard
+         * build CreditCard
          */
         final CreditCardBuilder creditCardBuilder =
                 CreditCardBuilder.create();

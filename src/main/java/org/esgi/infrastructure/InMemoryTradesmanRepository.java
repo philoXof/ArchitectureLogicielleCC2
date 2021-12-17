@@ -17,7 +17,7 @@ public class InMemoryTradesmanRepository implements TradesmanRepository {
 
     @Override
     public void add(Tradesman tradesman) {
-        data.put(tradesman.getTradesmanId(), tradesman);
+        data.put(tradesman.getId(), tradesman);
     }
 
     @Override
@@ -34,13 +34,13 @@ public class InMemoryTradesmanRepository implements TradesmanRepository {
     public Tradesman findById(TradesmanId id) {
         final Tradesman tradesman = data.get(id);
         if(tradesman == null) {
-            throw new RuntimeException("No user for " + id.getValue());
+            throw new RuntimeException("No tradesman for " + id.getValue());
         }
         return tradesman;
     }
 
     @Override
     public void save(Tradesman tradesman) {
-        data.put(tradesman.getTradesmanId(), tradesman);
+        data.put(tradesman.getId(), tradesman);
     }
 }

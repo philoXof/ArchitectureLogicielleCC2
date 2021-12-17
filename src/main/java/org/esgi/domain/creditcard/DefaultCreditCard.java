@@ -1,5 +1,6 @@
 package org.esgi.domain.creditcard;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DefaultCreditCard implements CreditCard{
@@ -40,9 +41,14 @@ public class DefaultCreditCard implements CreditCard{
     public String toString(){
         return "CreditCard: { " +
                 "CardNumber: " + this.cardNumber + ", " +
-                "ExpirationDate: " + this.expirationDate + ", " +
+                "ExpirationDate: " + dateToString(this.expirationDate) + ", " +
                 "Owner: " + this.owner + ", " +
                 "Cryptogram: " + this.cryptogram + " }";
+    }
+
+    private static String dateToString(Date date){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/yy");
+        return simpleDateFormat.format(date);
     }
 
 }

@@ -25,7 +25,21 @@ public class TradesmanService {
 
     public void create(Tradesman tradesman) {
         this.tradesmanRepository.add(tradesman);
-        this.eventBus.publish(new CreateTradesmanEvent(tradesman));
+        CreditCard creditCard = tradesman.getCreditCard();
+        this.eventBus.publish(new TradesmanAddCreditCard(
+                creditCard.cardNumber(),
+                creditCard.expirationDate(),
+                creditCard.owner(),
+                creditCard.cryptogram()
+        ));
+        this.eventBus.publish(new CreateTradesmanEvent(
+                tradesman.getId(),
+                tradesman.getFirstName(),
+                tradesman.getLastName(),
+                tradesman.getPassword(),
+                tradesman.getAddress(),
+                tradesman.getCreditCard()
+        ));
     }
 
     public void changeAddress(TradesmanId id, Address address){
