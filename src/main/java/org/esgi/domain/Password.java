@@ -9,7 +9,7 @@ public class Password {
 
     public Password(String value) {
         Objects.requireNonNull(value);
-        if (!isValidPassword(value)) {
+        if (!isValid(value)) {
             throw new IllegalArgumentException("A password must contain 8 to 15 characters, 1 or more capital letter, 1 or more small letter, 1 or more number and at least one of these special characters: $ @ % * + - _ !.");
         }
         this.value = value;
@@ -26,9 +26,9 @@ public class Password {
         - at least one of these special characters: $ @ % * + - _ !
         - no more characters possible: no & no { for example)
      */
-    private boolean isValidPassword(String input){
+    private boolean isValid(String value){
         Pattern p = Pattern.compile("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[-+!*$@%_])([-+!*$@%_\\w]{8,15})$");
-        Matcher m = p.matcher(input);
+        Matcher m = p.matcher(value);
         return m.matches();
     }
 

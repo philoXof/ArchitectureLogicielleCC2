@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.esgi.application.CreateTradesmanEvent;
 import org.esgi.application.TradesmanAddCreditCard;
 import org.esgi.application.TradesmanService;
+import org.esgi.domain.Email;
 import org.esgi.domain.Password;
 import org.esgi.domain.address.Address;
 import org.esgi.domain.address.AddressBuilder;
@@ -95,10 +96,10 @@ public class MainTest
         /*
          * add tradesmen
          */
-        addTradesman(tradesmanService, tradesmanId1, address1, creditCard1, new Password("Coucou1$"));
+        addTradesman(tradesmanService, tradesmanId1, address1, creditCard1, new Password("Coucou1$"), new Email("coucou@mail.com"), "je suis compétant", 10.0, "certificat");
         printTradesman(tradesmanRepository, tradesmanId1);
 
-        addTradesman(tradesmanService, tradesmanId2, address2, creditCard2, new Password("Azerty12*%"));
+        addTradesman(tradesmanService, tradesmanId2, address2, creditCard2, new Password("Azerty12*%"), new Email("michelle@toto.fr"), "je suis pas compétant", 12,"lalala");
         printTradesman(tradesmanRepository, tradesmanId2);
 
         /*
@@ -129,8 +130,8 @@ public class MainTest
         return simpleDateFormat.format(date);
     }
 
-    private static void addTradesman(TradesmanService tradesmanService, TradesmanId tradesmanId, Address address, CreditCard creditCard, Password password){
-        Tradesman tradesman = Tradesman.of(tradesmanId,"JD","COUCOU",address, creditCard, password);
+    private static void addTradesman(TradesmanService tradesmanService, TradesmanId tradesmanId, Address address, CreditCard creditCard, Password password, Email email, String skills, double dailyRate, String qualificationCertificate){
+        Tradesman tradesman = Tradesman.of(tradesmanId,"JD","COUCOU",address, creditCard, password, email, skills, dailyRate, qualificationCertificate);
         tradesmanService.create(tradesman);
     }
 

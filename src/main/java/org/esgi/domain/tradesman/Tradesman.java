@@ -1,5 +1,6 @@
 package org.esgi.domain.tradesman;
 
+import org.esgi.domain.Email;
 import org.esgi.domain.Password;
 import org.esgi.domain.address.Address;
 import org.esgi.domain.creditcard.CreditCard;
@@ -11,22 +12,28 @@ public class Tradesman {
     private Password password;
     private Address address;
     private CreditCard creditCard;
-    //private String skills;
+    private Email email;
+    private String skills;
+    private double dailyRate;
+    private String qualificationCertificate;
     //zone géographique
-    // taux journalier
-    // certificat d'aptitude
 
-    public Tradesman(TradesmanId id, String firstName, String lastName, Password password, Address address, CreditCard creditCard) {
+
+    public Tradesman(TradesmanId id, String firstName, String lastName, Password password, Address address, CreditCard creditCard, Email email, String skills, double dailyRate, String qualificationCertificate) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.address = address;
         this.creditCard = creditCard;
+        this.email = email;
+        this.skills = skills;
+        this.dailyRate = dailyRate;
+        this.qualificationCertificate = qualificationCertificate;
     }
 
-    public static Tradesman of(TradesmanId tradesmanId, String firstName, String lastName, Address address, CreditCard creditCard, Password password){
-        return new Tradesman(tradesmanId, firstName, lastName, password, address, creditCard);
+    public static Tradesman of(TradesmanId tradesmanId, String firstName, String lastName, Address address, CreditCard creditCard, Password password, Email email, String skills, double dailyRate, String qualificationCertificate){
+        return new Tradesman(tradesmanId, firstName, lastName, password, address, creditCard, email, skills, dailyRate, qualificationCertificate);
     }
 
     @Override
@@ -37,7 +44,8 @@ public class Tradesman {
                 "LastName: " + this.lastName + ", " +
                 this.address.toString() + ", " +
                 "Password: " + this.password.getValue() + ", " +
-                this.creditCard.toString() + " }";
+                this.creditCard.toString() + ", " +
+                "Email: " + this.email.getValue() +" }";
     }
 
     public TradesmanId getId() {
@@ -50,6 +58,38 @@ public class Tradesman {
 
     public void setPassword(Password password) {
         this.password = password;
+    }
+
+    public Email getEmail() {
+        return email;
+    }
+
+    public String getSkills() {
+        return skills;
+    }
+
+    public double getDailyRate() {
+        return dailyRate;
+    }
+
+    public String getQualificationCertificate() {
+        return qualificationCertificate;
+    }
+
+    public void setEmail(Email email) {
+        this.email = email;
+    }
+
+    public void setSkills(String skills) {
+        this.skills = skills;
+    }
+
+    public void setDailyRate(int dailyRate) {
+        this.dailyRate = dailyRate;
+    }
+
+    public void setQualificationCertificate(String qualificationCertificate) {
+        this.qualificationCertificate = qualificationCertificate;
     }
 
     public CreditCard getCreditCard() {
