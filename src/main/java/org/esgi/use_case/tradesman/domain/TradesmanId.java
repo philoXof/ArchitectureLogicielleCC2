@@ -2,7 +2,7 @@ package org.esgi.use_case.tradesman.domain;
 
 import java.util.Objects;
 
-public class TradesmanId {
+public final class TradesmanId {
     private final int id;
 
     private TradesmanId(int id) {

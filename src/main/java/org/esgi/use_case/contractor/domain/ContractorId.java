@@ -2,7 +2,7 @@ package org.esgi.use_case.contractor.domain;
 
 import java.util.Objects;
 
-public class ContractorId {
+public final class ContractorId {
     private final int id;
 
     public ContractorId(int id) {

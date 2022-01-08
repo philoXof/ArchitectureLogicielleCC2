@@ -5,21 +5,11 @@ import org.esgi.kernel.ApplicationEvent;
 
 import java.util.Objects;
 
-public class CreateTradesmanEvent implements ApplicationEvent {
-    private final TradesmanId id;
-    private final String firstName;
-    private final String lastName;
-    private final Password password;
-    private final Address address;
-    private final CreditCard creditCard;
+public final class CreateTradesmanEvent implements ApplicationEvent {
+    private final Tradesman tradesman;
 
-    public CreateTradesmanEvent(TradesmanId id, String firstName, String lastName, Password password, Address address, CreditCard creditCard) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = password;
-        this.address = address;
-        this.creditCard = creditCard;
+    public CreateTradesmanEvent(Tradesman tradesman) {
+        this.tradesman = tradesman;
     }
 
     @Override

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class InMemoryTradesmanRepository implements TradesmanRepository {
+public final class InMemoryTradesmanRepository implements TradesmanRepository {
 
     private final AtomicInteger counter = new AtomicInteger(0);
     private final Map<TradesmanId, Tradesman> data = new HashMap<>();

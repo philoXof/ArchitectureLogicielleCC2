@@ -1,7 +1,5 @@
 package org.esgi;
 
-import static org.junit.Assert.assertTrue;
-
 import org.esgi.use_case.contractor.application.ContractorService;
 import org.esgi.use_case.contractor.application.CreateContractorEvent;
 import org.esgi.use_case.contractor.domain.Contractor;
@@ -32,6 +30,7 @@ import org.esgi.use_case.project.infrastructure.InMemoryProjectRepository;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -51,8 +50,9 @@ public class SpringMain
           event initialisation
          */
         EventBus<ApplicationEvent> eventBus = new SimpleEventBus<>();
-        eventBus.register(CreateTradesmanEvent.class, List.of(new CreateTradesmanEventListener()));
-        eventBus.register(TradesmanAddCreditCard.class,List.of(new TradesmanAddCreditCardListener()));
+        eventBus.register(CreateTradesmanEvent.class, List.of(new CreateTradesmanEventListener(tradesmanRepository)));
+        eventBus.register(CreateContractorEvent.class, List.of(new CreateContractorEventListener(contractorRepository)));
+        eventBus.register(CreateProjectEvent.class,List.of(new CreateProjectEventListener(projectRepository)));
         final TradesmanService tradesmanService = new TradesmanService(tradesmanRepository, eventBus);
         final ContractorService contractorService = new ContractorService(contractorRepository, eventBus);
         final ProjectService projectService = new ProjectService(projectRepository,eventBus);
@@ -120,9 +120,20 @@ public class SpringMain
                 .build();
 
         /*
+        create project
+         */
+        List<String> jobs = new ArrayList();
+        jobs.add("bucheron");
+        List<String> skills = new ArrayList();
+        skills.add("tenir une hache");
+
+        createProject(projectService, projectId1, "project 1","a project", jobs, skills,"PARIS",7.00,7);
+
+
+        /*
          * add tradesmen
          */
-        addTradesman(tradesmanService, tradesmanId1, address1, creditCard1, new Password("Coucou1$"), new Email("coucou@mail.com"), "je suis compétant", 10.0, "certificat");
+        addTradesman(tradesmanService, tradesmanId1, address1, creditCard1, new Password("Coucou1$"), new Email("coucou@mail.com"), "je suis compétant", 10.0, "certificat", "paris");
         printTradesman(tradesmanRepository, tradesmanId1);
 
         /*
@@ -143,7 +154,9 @@ public class SpringMain
          * change creditCard
          */
         changeCreditCard(tradesmanService, tradesmanId1, creditCard3);
+
         printTradesmen(tradesmanService);
+        printContractors(contractorService);
     }
 
 /**
@@ -169,8 +182,8 @@ public class SpringMain
         return simpleDateFormat.format(date);
     }
 
-    private static void addTradesman(TradesmanService tradesmanService, TradesmanId tradesmanId, Address address, CreditCard creditCard, Password password, Email email, String skills, double dailyRate, String qualificationCertificate){
-        Tradesman tradesman = Tradesman.of(tradesmanId,"JD","COUCOU",address, creditCard, password, email, skills, dailyRate, qualificationCertificate);
+    private static void addTradesman(TradesmanService tradesmanService, TradesmanId tradesmanId, Address address, CreditCard creditCard, Password password, Email email, String skills, double dailyRate, String qualificationCertificate, String location){
+        Tradesman tradesman = Tradesman.of(tradesmanId,"JD","COUCOU",address, creditCard, password, email, skills, dailyRate, qualificationCertificate, location);
         tradesmanService.create(tradesman);
     }
 
@@ -198,8 +211,12 @@ public class SpringMain
 
     private static void printTradesmen(TradesmanService tradesmanService){
         System.out.println("Tradesmen List :");
-        final List<Tradesman> tradesmen = tradesmanService.all();
-        tradesmen.forEach(System.out::println);
+        tradesmanService.all().forEach(System.out::println);
+    }
+
+    private static void printContractors(ContractorService contractorService) {
+        System.out.println("Contractors List :");
+        contractorService.all().forEach(System.out::println);
     }
 
     private static void printTradesman(TradesmanRepository tradesmanRepository, TradesmanId id){

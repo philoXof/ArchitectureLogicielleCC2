@@ -2,7 +2,7 @@ package org.esgi.domain.address;
 
 import java.util.Objects;
 
-public class AddressBuilder {
+public final class AddressBuilder {
 
     private String number;
     private String line;

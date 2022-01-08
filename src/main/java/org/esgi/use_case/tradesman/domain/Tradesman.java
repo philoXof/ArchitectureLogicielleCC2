@@ -5,7 +5,7 @@ import org.esgi.domain.Password;
 import org.esgi.domain.address.Address;
 import org.esgi.domain.creditcard.CreditCard;
 
-public class Tradesman {
+public final class Tradesman {
     private final TradesmanId id;
     private String firstName;
     private String lastName;
@@ -16,10 +16,11 @@ public class Tradesman {
     private String skills;
     private double dailyRate;
     private String qualificationCertificate;
-    //zone géographique
+    private String location;
+    private boolean isValid;
 
 
-    public Tradesman(TradesmanId id, String firstName, String lastName, Password password, Address address, CreditCard creditCard, Email email, String skills, double dailyRate, String qualificationCertificate) {
+    public Tradesman(TradesmanId id, String firstName, String lastName, Password password, Address address, CreditCard creditCard, Email email, String skills, double dailyRate, String qualificationCertificate, String location) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -30,10 +31,11 @@ public class Tradesman {
         this.skills = skills;
         this.dailyRate = dailyRate;
         this.qualificationCertificate = qualificationCertificate;
+        this.location = location;
     }
 
-    public static Tradesman of(TradesmanId tradesmanId, String firstName, String lastName, Address address, CreditCard creditCard, Password password, Email email, String skills, double dailyRate, String qualificationCertificate){
-        return new Tradesman(tradesmanId, firstName, lastName, password, address, creditCard, email, skills, dailyRate, qualificationCertificate);
+    public static Tradesman of(TradesmanId tradesmanId, String firstName, String lastName, Address address, CreditCard creditCard, Password password, Email email, String skills, double dailyRate, String qualificationCertificate, String location){
+        return new Tradesman(tradesmanId, firstName, lastName, password, address, creditCard, email, skills, dailyRate, qualificationCertificate, location);
     }
 
     @Override
@@ -122,5 +124,25 @@ public class Tradesman {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public boolean getIsValid(){
+        return isValid;
+    }
+
+    public void setValid(){
+        this.isValid = true;
+    }
+
+    public void setInvalid(){
+        this.isValid = false;
     }
 }

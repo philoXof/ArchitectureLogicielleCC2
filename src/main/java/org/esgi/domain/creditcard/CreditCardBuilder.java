@@ -2,7 +2,7 @@ package org.esgi.domain.creditcard;
 import java.util.Date;
 import java.util.Objects;
 
-public class CreditCardBuilder {
+public final class CreditCardBuilder {
     private String cardNumber;
     private Date expirationDate;
     private String owner;

@@ -12,14 +12,25 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class InMemoryContractorRepository implements ContractorRepository {
+public final class InMemoryContractorRepository implements ContractorRepository {
 
     private final AtomicInteger counter = new AtomicInteger(0);
     private final Map<ContractorId, Contractor> data = new HashMap<>();
 
     @Override
     public void add(Contractor contractor) {
-        data.put(contractor.getId(), contractor);
+        AtomicBoolean emailExist = new AtomicBoolean(false);
+        List<Contractor> contractors = findAll();
+        contractors.forEach(list -> {
+            if (list.getEmail().equals(contractor.getEmail())){
+                emailExist.set(true);
+            }
+        });
+        if(emailExist.get()){
+            System.out.println("Email already exist.");
+        }else {
+            data.put(contractor.getId(), contractor);
+        }
     }
 
     @Override

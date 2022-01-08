@@ -3,7 +3,7 @@ package org.esgi.domain.creditcard;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class DefaultCreditCard implements CreditCard{
+public final class DefaultCreditCard implements CreditCard{
 
     private final String cardNumber;
     private final Date expirationDate;

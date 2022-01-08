@@ -1,6 +1,6 @@
 package org.esgi.domain.address;
 
-public class DefaultAddress implements Address{
+public final class DefaultAddress implements Address{
     private final String number;
     private final String line;
     private final String city;

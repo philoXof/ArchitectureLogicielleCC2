@@ -12,4 +12,8 @@ public interface TradesmanRepository {
     Tradesman findById(TradesmanId id);
 
     void save(Tradesman tradesman);
+
+    void setValid(TradesmanId id);
+
+    void setInvalid(TradesmanId id);
 }

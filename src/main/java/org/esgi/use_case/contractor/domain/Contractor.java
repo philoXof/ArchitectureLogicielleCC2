@@ -8,7 +8,7 @@ import org.esgi.use_case.project.domain.ProjectId;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Contractor {
+public final class Contractor {
     private final ContractorId id;
     private String firstName;
     private String lastName;

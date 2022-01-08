@@ -12,7 +12,7 @@ import org.esgi.kernel.EventBus;
 import java.util.List;
 import java.util.Objects;
 
-public class TradesmanService {
+public final class TradesmanService {
 
     private final TradesmanRepository tradesmanRepository;
     private final EventBus<ApplicationEvent> eventBus;

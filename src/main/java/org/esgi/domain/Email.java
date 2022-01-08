@@ -4,11 +4,10 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Email {
+public final class Email {
     private final String value;
 
     public Email(String value) {
-        System.out.println(value);
         Objects.requireNonNull(value);
         if(!isValid(value)){
             throw new IllegalArgumentException("Invalid email !");
